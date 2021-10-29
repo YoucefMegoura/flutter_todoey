@@ -3,7 +3,29 @@ import 'package:flutter/material.dart';
 
 const Color kMainColor = Color(0xFF00B4FF);
 
-class TasksScreen extends StatelessWidget {
+class TasksScreen extends StatefulWidget {
+  static int taskCount = 0;
+
+  @override
+  State<TasksScreen> createState() => _TasksScreenState();
+}
+
+class _TasksScreenState extends State<TasksScreen> {
+  List<Task> _taskList = [];
+
+  List<TaskWidget> getTaskWidget() {
+    List<TaskWidget> tmpList = [];
+    for (Task task in _taskList) {
+      tmpList.add(
+        TaskWidget(
+          isActive: task.isActive,
+          text: task.name,
+        ),
+      );
+    }
+    return tmpList;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,9 +67,9 @@ class TasksScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Text(
-                    '12 Tasks',
-                    style: TextStyle(
+                  Text(
+                    '${TasksScreen.taskCount.toString()} Tasks',
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 20,
                     ),
@@ -69,27 +91,37 @@ class TasksScreen extends StatelessWidget {
                 color: Colors.white,
               ),
               child: ListView(
-                children: [
-                  TaskWidget(
-                    text: 'Buy milk ',
-                    isActive: true,
-                  ),
-                ],
+                children: getTaskWidget(),
               ),
             ),
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            _taskList.add(Task(isActive: false, name: 'Hello world'));
+            TasksScreen.taskCount++;
+          });
+        },
+        child: const Icon(Icons.add),
+        backgroundColor: kMainColor,
+      ),
     );
   }
 }
 
-class TaskWidget extends StatelessWidget {
+class TaskWidget extends StatefulWidget {
   final String? text;
-  bool isActive;
+  bool isActive = false;
 
   TaskWidget({this.text, required this.isActive});
 
+  @override
+  State<TaskWidget> createState() => _TaskWidgetState();
+}
+
+class _TaskWidgetState extends State<TaskWidget> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -98,16 +130,27 @@ class TaskWidget extends StatelessWidget {
         Text(
           'Buy Milk',
           style: TextStyle(
-            decoration:
-                isActive ? TextDecoration.lineThrough : TextDecoration.none,
+            decoration: widget.isActive
+                ? TextDecoration.lineThrough
+                : TextDecoration.none,
           ),
         ),
         Checkbox(
-            value: isActive,
+            value: widget.isActive,
             onChanged: (bool? value) {
-              isActive = value!;
+              setState(() {
+                widget.isActive = value!;
+                TasksScreen.taskCount--;
+              });
             }),
       ],
     );
   }
+}
+
+class Task {
+  String name;
+  bool isActive;
+
+  Task({required this.name, required this.isActive});
 }
