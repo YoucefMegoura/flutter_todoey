@@ -4,6 +4,13 @@ import 'package:todoey_flutter/components/task_widget.dart';
 import 'package:todoey_flutter/models/task.dart';
 
 const Color kMainColor = Color(0xFF00B4FF);
+const Decoration kMainWhiteDecorationContainer = BoxDecoration(
+  borderRadius: BorderRadius.only(
+    topLeft: Radius.circular(30),
+    topRight: Radius.circular(30),
+  ),
+  color: Colors.white,
+);
 
 class TasksScreen extends StatefulWidget {
   static int taskCount = 0;
@@ -18,12 +25,7 @@ class _TasksScreenState extends State<TasksScreen> {
   List<TaskWidget> getTaskWidget() {
     List<TaskWidget> tmpList = [];
     for (Task task in _taskList) {
-      tmpList.add(
-        TaskWidget(
-          isActive: task.isActive,
-          text: task.name,
-        ),
-      );
+      tmpList.add(TaskWidget(text: task.name, isActive: task.isActive));
     }
     return tmpList;
   }
@@ -38,35 +40,31 @@ class _TasksScreenState extends State<TasksScreen> {
           Expanded(
             flex: 3,
             child: Container(
-              margin: const EdgeInsets.only(
-                top: 40,
-                bottom: 20,
+              padding: const EdgeInsets.only(
+                top: 70,
                 left: 40,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(15),
-                    margin: const EdgeInsets.symmetric(vertical: 35),
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(36),
-                      ),
-                      color: Colors.white,
-                    ),
-                    child: const Icon(
+                  const CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Colors.white,
+                    child: Icon(
                       Icons.list,
                       color: kMainColor,
                       size: 42,
                     ),
+                  ),
+                  const SizedBox(
+                    height: 20,
                   ),
                   const Text(
                     'Todoey',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 50,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                   Text(
@@ -83,15 +81,8 @@ class _TasksScreenState extends State<TasksScreen> {
           Expanded(
             flex: 4,
             child: Container(
-              constraints: const BoxConstraints.tightForFinite(),
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 60),
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
-                ),
-                color: Colors.white,
-              ),
+              decoration: kMainWhiteDecorationContainer,
               child: ListView(
                 children: getTaskWidget(),
               ),
