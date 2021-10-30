@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:todoey_flutter/components/task_widget.dart';
+import 'package:todoey_flutter/models/task.dart';
 
 const Color kMainColor = Color(0xFF00B4FF);
 
@@ -54,7 +56,7 @@ class _TasksScreenState extends State<TasksScreen> {
                       color: Colors.white,
                     ),
                     child: const Icon(
-                      Icons.format_list_bulleted,
+                      Icons.list,
                       color: kMainColor,
                       size: 42,
                     ),
@@ -109,48 +111,4 @@ class _TasksScreenState extends State<TasksScreen> {
       ),
     );
   }
-}
-
-class TaskWidget extends StatefulWidget {
-  final String? text;
-  bool isActive = false;
-
-  TaskWidget({this.text, required this.isActive});
-
-  @override
-  State<TaskWidget> createState() => _TaskWidgetState();
-}
-
-class _TaskWidgetState extends State<TaskWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Text(
-          'Buy Milk',
-          style: TextStyle(
-            decoration: widget.isActive
-                ? TextDecoration.lineThrough
-                : TextDecoration.none,
-          ),
-        ),
-        Checkbox(
-            value: widget.isActive,
-            onChanged: (bool? value) {
-              setState(() {
-                widget.isActive = value!;
-                TasksScreen.taskCount--;
-              });
-            }),
-      ],
-    );
-  }
-}
-
-class Task {
-  String name;
-  bool isActive;
-
-  Task({required this.name, required this.isActive});
 }
