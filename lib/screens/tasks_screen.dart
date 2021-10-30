@@ -1,16 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:todoey_flutter/components/task_widget.dart';
+import 'package:todoey_flutter/widgets/tasks_list_widget.dart';
 import 'package:todoey_flutter/models/task.dart';
-
-const Color kMainColor = Color(0xFF00B4FF);
-const Decoration kMainWhiteDecorationContainer = BoxDecoration(
-  borderRadius: BorderRadius.only(
-    topLeft: Radius.circular(30),
-    topRight: Radius.circular(30),
-  ),
-  color: Colors.white,
-);
+import 'package:todoey_flutter/utils/constants.dart';
 
 class TasksScreen extends StatefulWidget {
   static int taskCount = 0;
@@ -21,14 +13,6 @@ class TasksScreen extends StatefulWidget {
 
 class _TasksScreenState extends State<TasksScreen> {
   List<Task> _taskList = [];
-
-  List<TaskWidget> getTaskWidget() {
-    List<TaskWidget> tmpList = [];
-    for (Task task in _taskList) {
-      tmpList.add(TaskWidget(text: task.name, isActive: task.isActive));
-    }
-    return tmpList;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,12 +65,10 @@ class _TasksScreenState extends State<TasksScreen> {
           Expanded(
             flex: 4,
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 60),
-              decoration: kMainWhiteDecorationContainer,
-              child: ListView(
-                children: getTaskWidget(),
-              ),
-            ),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 60),
+                decoration: kMainWhiteDecorationContainer,
+                child: TasksListWidget(taskList: _taskList)),
           ),
         ],
       ),
