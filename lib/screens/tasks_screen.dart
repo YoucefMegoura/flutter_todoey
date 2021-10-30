@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:todoey_flutter/widgets/tasks_list_widget.dart';
 import 'package:todoey_flutter/models/task.dart';
 import 'package:todoey_flutter/utils/constants.dart';
+import 'package:todoey_flutter/screens/addtask_screen.dart';
 
 class TasksScreen extends StatefulWidget {
   static int taskCount = 0;
@@ -17,6 +18,7 @@ class _TasksScreenState extends State<TasksScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: kMainColor,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,11 +75,20 @@ class _TasksScreenState extends State<TasksScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            _taskList.add(Task(isActive: false, name: 'Hello world'));
-            TasksScreen.taskCount++;
-          });
+        onPressed: () async {
+          showModalBottomSheet(
+            isScrollControlled: true,
+            backgroundColor: Colors.black12,
+            shape: kMainPopupShape,
+            context: context,
+            builder: (context) => SingleChildScrollView(
+                child: Container(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: AddTaskScreen(context),
+            )),
+          );
+          setState(() {});
         },
         child: const Icon(Icons.add),
         backgroundColor: kMainColor,

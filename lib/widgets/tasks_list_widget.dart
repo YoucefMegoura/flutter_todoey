@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:todoey_flutter/models/task.dart';
-import 'package:todoey_flutter/screens/tasks_screen.dart';
-import 'package:todoey_flutter/utils/constants.dart';
 import 'package:todoey_flutter/widgets/task_widget.dart';
 
 class TasksListWidget extends StatefulWidget {
