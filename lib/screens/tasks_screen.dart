@@ -6,14 +6,13 @@ import 'package:todoey_flutter/utils/constants.dart';
 import 'package:todoey_flutter/screens/addtask_screen.dart';
 
 class TasksScreen extends StatefulWidget {
-  static int taskCount = 0;
-
   @override
   State<TasksScreen> createState() => _TasksScreenState();
 }
 
 class _TasksScreenState extends State<TasksScreen> {
   List<Task> _taskList = [];
+  int taskCount = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +53,7 @@ class _TasksScreenState extends State<TasksScreen> {
                     ),
                   ),
                   Text(
-                    '${TasksScreen.taskCount.toString()} Tasks',
+                    '${taskCount.toString()} Tasks',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 20,
@@ -67,16 +66,16 @@ class _TasksScreenState extends State<TasksScreen> {
           Expanded(
             flex: 4,
             child: Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 60),
-                decoration: kMainWhiteDecorationContainer,
-                child: TasksListWidget(taskList: _taskList)),
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 60),
+              decoration: kMainWhiteDecorationContainer,
+              child: TasksListWidget(_taskList),
+            ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          showModalBottomSheet(
+          var result = await showModalBottomSheet(
             isScrollControlled: true,
             backgroundColor: Colors.black12,
             shape: kMainPopupShape,
@@ -88,7 +87,22 @@ class _TasksScreenState extends State<TasksScreen> {
               child: AddTaskScreen(context),
             )),
           );
-          setState(() {});
+          if (result == null || result['taskName'] == null) {
+            return;
+          }
+          setState(() {
+            taskCount++;
+            _taskList.add(
+              Task(
+                name: result['taskName'],
+              ),
+            );
+          });
+
+          // setState(() {
+          //   _taskList.add(Task(name: 'name', isActive: false));
+          //   taskCount++;
+          // });
         },
         child: const Icon(Icons.add),
         backgroundColor: kMainColor,

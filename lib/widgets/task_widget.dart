@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:todoey_flutter/utils/constants.dart';
 
-class TaskWidget extends StatefulWidget {
+class TaskWidget extends StatelessWidget {
   String text;
   bool isActive;
+  Function onChangedCheckboxStatus;
 
-  TaskWidget({required this.text, required this.isActive});
+  TaskWidget({
+    required this.text,
+    required this.isActive,
+    required this.onChangedCheckboxStatus,
+  });
 
-  @override
-  State<TaskWidget> createState() => _TaskWidgetState();
-}
-
-class _TaskWidgetState extends State<TaskWidget> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(widget.text),
+      title: Text(
+        text,
+        style: TextStyle(
+            decoration:
+                isActive ? TextDecoration.lineThrough : TextDecoration.none),
+      ),
       trailing: Checkbox(
-        value: widget.isActive,
+        value: isActive,
         activeColor: kMainColor,
         onChanged: (bool? value) {
-          setState(() {
-            widget.isActive = value!;
-//TasksScreen.taskCount--;
-          });
+          onChangedCheckboxStatus(value);
         },
       ),
     );
