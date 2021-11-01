@@ -12,17 +12,15 @@ class TasksListWidget extends StatelessWidget {
         return ListView.builder(
           itemBuilder: (context, index) {
             Task task = tasksValue.taskByIndex(index);
-            return GestureDetector(
+            return TaskWidget(
+              text: task.name,
+              isActive: task.isActive,
+              onChangedCheckboxStatus: (bool value) {
+                tasksValue.changeTaskStatus(index);
+              },
               onLongPress: () {
                 tasksValue.deleteTaskByIndex(index);
               },
-              child: TaskWidget(
-                text: task.name,
-                isActive: task.isActive,
-                onChangedCheckboxStatus: (bool value) {
-                  tasksValue.changeTaskStatus(index);
-                },
-              ),
             );
           },
           itemCount: tasksValue.tasksLength,

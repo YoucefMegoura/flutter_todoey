@@ -5,16 +5,20 @@ class TaskWidget extends StatelessWidget {
   String text;
   bool isActive;
   Function onChangedCheckboxStatus;
+  Function onLongPress;
 
-  TaskWidget({
-    required this.text,
-    required this.isActive,
-    required this.onChangedCheckboxStatus,
-  });
+  TaskWidget(
+      {required this.text,
+      required this.isActive,
+      required this.onChangedCheckboxStatus,
+      required this.onLongPress});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onLongPress: () {
+        onLongPress();
+      },
       title: Text(
         text,
         style: TextStyle(
