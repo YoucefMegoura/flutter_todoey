@@ -6,17 +6,21 @@ import 'package:provider/provider.dart';
 class TasksListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        return TaskWidget(
-          text: context.watch<Tasks>().tasks[index].name,
-          isActive: context.watch<Tasks>().tasks[index].isActive,
-          onChangedCheckboxStatus: (bool value) {
-            context.read<Tasks>().changeTaskStatus(index);
+    return Consumer<Tasks>(
+      builder: (BuildContext context, Tasks tasksValue, Widget? child) {
+        return ListView.builder(
+          itemBuilder: (context, index) {
+            return TaskWidget(
+              text: tasksValue.taskByIndex(index).name,
+              isActive: tasksValue.taskByIndex(index).isActive,
+              onChangedCheckboxStatus: (bool value) {
+                tasksValue.changeTaskStatus(index);
+              },
+            );
           },
+          itemCount: tasksValue.tasksLength,
         );
       },
-      itemCount: context.watch<Tasks>().tasks.length,
     );
   }
 }
