@@ -21,4 +21,9 @@ class Tasks extends ChangeNotifier {
   Task taskByIndex(int index) {
     return _tasks[index];
   }
+
+  void deleteTaskByIndex(int index) {
+    _tasks.removeAt(index);
+    notifyListeners();
+  }
 }
