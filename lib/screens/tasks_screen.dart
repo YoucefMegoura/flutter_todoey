@@ -7,12 +7,7 @@ import 'package:todoey_flutter/models/task.dart';
 import 'package:todoey_flutter/utils/constants.dart';
 import 'package:todoey_flutter/screens/addtask_screen.dart';
 
-class TasksScreen extends StatefulWidget {
-  @override
-  State<TasksScreen> createState() => _TasksScreenState();
-}
-
-class _TasksScreenState extends State<TasksScreen> {
+class TasksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<Tasks>(
@@ -86,24 +81,17 @@ class _TasksScreenState extends State<TasksScreen> {
                   child: Container(
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: AddTaskScreen(context),
+                child: AddTaskScreen(),
               )),
             );
             if (result == null || result['taskName'] == null) {
               return;
             }
-            setState(() {
-              context.read<Tasks>().addTask(
-                    Task(
-                      name: result['taskName'],
-                    ),
-                  );
-            });
-
-            // setState(() {
-            //   _taskList.add(Task(name: 'name', isActive: false));
-            //   taskCount++;
-            // });
+            context.read<Tasks>().addTask(
+                  Task(
+                    name: result['taskName'],
+                  ),
+                );
           },
           child: const Icon(Icons.add),
           backgroundColor: kMainColor,
